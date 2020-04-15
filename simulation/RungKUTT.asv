@@ -1,0 +1,19 @@
+function [RungKUTT ] = RungKUTT( t,dt,,xa,ya,za,GM, T,eps )
+for i=1:lenght(t)
+    inp=[ xa,ya,za,vxa,vya,vza];
+    const=[GM, T,eps]
+ 
+    K0=F(inp,const);
+    
+    K1=F(inp+0.5*.dt.*K1, const);
+    
+    K2=F(inp+0.5*.dt.*K2, const);
+    
+    K3=F(inp+dt.*K3, const)
+    
+    inp(i+1)=inp(i)+(dt/6)*(K0+2*K1+2*K2+K3);
+    
+end
+[RungKUTT]=inp;
+end
+
