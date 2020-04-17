@@ -1,14 +1,8 @@
 clear all; clc; close all;
 format long g
-%time
-%
+
 %константы
-pi=3.14159265359;
-% J02=1082625.75*10^-9;  %зональный гармонический коэффициент второй степени
- ae=6378136;         %большая (экваториальная) полуось общеземного эллипсоида
-% GM=398600441.8*10^6;    %– геоцентрическая константа гравитационного поля Земли 
-% J20=1082625.75*10^-9;    %зональный гармонический коэффициент второй степени, характеризующий полярное сжатие Земли
-% we=0.7292115*10^-4;        %earth's rotation rate
+ae=6378136;         %большая (экваториальная) полуось общеземного эллипсоида
 we=0.7292115*10^-4; %earth's rotation rate
 %данные из RTKNAVI
 
@@ -28,24 +22,20 @@ Gamma=0.0018; %ns
  %2020.02.10 13.45.18           !!!!Проверить!!!!!
  N4=7;
  Nt=41;
- te=(13+3)*60*60+45*60;
+ hour=13;
+ min=45;
+ sec=18;
+ h_st=12;   %начало наблюдения, часов
+ h_fin=24;  %конец наблюдения, часов
  
-% начало и конец времени наблюдения
-time_start=(12+3)*60*60; %(+3 UTC)
-time_final=(24+3)*60*60;
+TIME=time(N4,Nt,hour,min,sec, h_st,h_fin);
+S=TIME(1);
+    time_start=TIME(2);
+    time_final=TIME(3);
+T=TIME(4);
+te=TIME(5);
+GMST=TIME(6);
 
-C1=0;%use after 2119 year
-C2=0;%use after 2239 year
-JD0=1461*(N4-1)+Nt+2450082.5-(Nt-3)/25+C1+C2; %текущая юлианская дата на 0 часов шкалы МДВ
-T=(JD0+(te -10800)/86400-2451545.0)/36525;
-
-%расчеты времени всякие GMST и прочее (Приложение Л ИКД)
-JDN=JD0+0.5;
-
-Tdel=(JD0-2451545.0)/36525;
-ERA=2*pi*(0.7790572732640+1.00273781191135448*(JD0-2451545.0));%угол поворота Земли, рад
-GMST=ERA+0.0000000703270726+0.0223603658710194*Tdel+0.0000067465784654*Tdel^2-0.0000000000021332*Tdel^3-0.0000000001452308*Tdel^4-0.0000000000001784*Tdel^5;   %истинное звездное время по Гринвичу (рад) (GST ИКД)
-S=GMST+we*(te-10800);  %10800 из ИКД
 
 %%
 %Coordinates transformation to an inertial reference frame:
@@ -69,14 +59,39 @@ Jsm_z=az;
 coordinat=math(xa,ya,za,vxa,vya,vza,Jsm_x,Jsm_y,Jsm_z,time_start,time_final, te,T);
 
 %Строим Землю
+
 [EAR_x,EAR_y,EAR_z] = sphere(20);
 EAR_x=ae.*EAR_x;
 EAR_y=ae.*EAR_y;
 EAR_z=ae.*EAR_z;
+%Графики
 figure (1)
-
-
 surf(EAR_x,EAR_y,EAR_z)
 hold on
 grid on
 plot3(coordinat(:,1),coordinat(:,2),coordinat(:,3))
+title('Траектория КА в инерциальной СК')
+xlabel('x,km')
+ylabel('y,km')
+zlabel('z,km')
+
+% Для перевода в ПЗ 90.11
+ti=coordinat(:,7);
+S_pz=GMST+we*(ti-10800);
+x_pz=coordinat(:,1).*cos(S_pz)+coordinat(:,2).*sin(S_pz);
+y_pz=-coordinat(:,1).*sin(S_pz)+coordinat(:,2).*cos(S_pz);
+z_pz=-coordinat(:,3);
+
+vx_pz=coordinat(:,4).*cos(S_pz)+coordinat(:,5).*sin(S_pz)+we*coordinat(:,2);
+vy_pz=-coordinat(:,4).*sin(S_pz)+coordinat(:,5).*cos(S_pz)+we*coordinat(:,1);
+vz_pz=-coordinat(:,6);
+figure (2)
+surf(EAR_x,EAR_y,EAR_z)
+hold on
+grid on
+plot3(x_pz,y_pz,z_pz)
+title('Траектория КА в инерциальной ПЗ-90')
+xlabel('x,km')
+ylabel('y,km')
+zlabel('z,km')
+

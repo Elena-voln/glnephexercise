@@ -22,7 +22,7 @@ if(te<=time_start&&te<time_final)
     ti=t;
 elseif(te>time_start&&te<time_final)
     t1=te:dt:time_final-dt;
-    result=nan(length(t1),7);
+    result=nan(length(t1),6);
     XA=zeros(length(t1),1);
     XA(1,:)=xa;
     YA=zeros(length(t1),1);
@@ -42,7 +42,7 @@ end
 tu=ti-te;
 for i=1:length(tu)
     tau(i,:)=tu(i);
-    tpz(i,:)=ti(i);
+    tpz(i,:)=tu(i);
 end
 NEB_TEL=sun_moon(T, xa,ya,za,vxa,vya,vza);
 
@@ -63,6 +63,6 @@ result(:,4)=result(:,4)+dvx;
 result(:,5)=result(:,5)+dvy;
 result(:,6)=result(:,6)+dvz;
 
-[math]=[result tpz];
+[math]=[result, ti];
 end
 

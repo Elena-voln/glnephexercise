@@ -1,6 +1,6 @@
 function [RungKUTT ] = RungKUTT( t,dt,xa,ya,za,vxa,vya,vza, T )
  inp=[ xa,ya,za,vxa,vya,vza];
-for i=1:length(t)
+for i=1:length(t)-1
     
   %  inp=[ xa,ya,za,vxa,vya,vza];
     
