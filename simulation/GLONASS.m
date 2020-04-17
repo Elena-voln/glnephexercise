@@ -90,7 +90,7 @@ surf(EAR_x,EAR_y,EAR_z)
 hold on
 grid on
 plot3(x_pz,y_pz,z_pz)
-title('Траектория КА в инерциальной ПЗ-90')
+title('Траектория КА в СК ПЗ-90')
 xlabel('x,km')
 ylabel('y,km')
 zlabel('z,km')
