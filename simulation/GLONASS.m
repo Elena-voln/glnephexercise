@@ -4,6 +4,7 @@ format long g
 %константы
 ae=6378136;         %большая (экваториальная) полуось общеземного эллипсоида
 we=0.7292115*10^-4; %earth's rotation rate
+
 %данные из RTKNAVI
 
 x0=10192674.32;
@@ -95,3 +96,35 @@ xlabel('x,km')
 ylabel('y,km')
 zlabel('z,km')
 
+%% Географические координаты корпуса Е и их перевод в систему WGS-84
+N_gr = 55;
+N_min = 45;
+N_sec = 23.5859;
+E_gr = 37;
+E_min = 42;
+E_sec = 11.5030;
+H = 150;% высота в метрах
+N = N_gr*pi/180 + N_min/3437.747 + N_sec/206264.8; % широта в радионах
+E = E_gr*pi/180 + E_min/3437.747 + E_sec/206264.8; % долгота в радионах
+llh = [N E H];
+%PRM_coor = llh2xyz(llh)';
+
+coordinat = coordinat(:,1:3).*1e3; % переход к метрам
+ 
+ %% Постороение SkyPlot
+for i=1:length(coordinat(:,1))
+    [x(i) y(i) z(i)] = ecef2enu(coordinat(i,2),coordinat(i,2),coordinat(i,3),N,E,H,wgs84Ellipsoid,'radians');
+    if z(i) > 0
+     teta(i) = atan2(sqrt(x(i)^2 + y(i)^2),z(i));
+     r(i) = sqrt(x(i)^2 + y(i)^2 + z(i)^2);
+     phi(i) = atan2(y(i),x(i));
+     else teta(i) = NaN;
+     r(i) = NaN;
+     phi(i) = NaN;
+    end
+end
+
+figure(4);
+polar(phi,(teta*180-pi)/pi,'r')
+title('Sky PLot КА 13 ГЛОНАСС')
+plot (ti,x)
