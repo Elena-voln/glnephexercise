@@ -126,16 +126,12 @@ for i=1:length(coordinat(:,1))
     end
 end
 
-
-
-
 figure(4);
 polar(phi,(teta*180-pi)/pi,'r')
 title('Sky PLot  ¿ 13 √ÀŒÕ¿——')
-
+plot (ti,x)
 ti=rot90(ti,1);
+%xti=[ti x];
+xti(:,1:200)
+%x(:,end-1000:end)
 
-xti=[ti; x];
-xti(:,1:200);
-
-xti(: ,6318-15: 6318+15)

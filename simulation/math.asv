@@ -72,17 +72,14 @@ elseif(te>time_start&&te<time_final)
     VYA(1,:)=vya;
     VZA=zeros(length(taft),1);
     VZA(1,:)=vza;
-    result_after=RungKUTT( taft,dt,XA,YA,ZA,VXA,VYA,VZA, T );
+    result_after=RungKUTT( taft,dt,XA,YA,ZA,VXA,VYA,VZA, dt );
     
     %вращаем!
     tbef=rot90(tbef,2);
-  
-   %result_before=rot90(result_bef,2);
-    result_before=[rot90(result_bef(:,1),2) rot90(result_bef(:,2),2) rot90(result_bef(:,3),2) rot90(result_bef(:,4),2)  rot90(result_bef(:,5),2) rot90(result_bef(:,6),2)];
+    result_before=rot90(result_bef,2);
+    
     result=[result_before;result_after];
     ti=[tbef taft];
- 
-    
  %третий вариант
  elseif(te<=time_start&&te>time_final)
      %до полуночи
@@ -124,7 +121,7 @@ elseif(te>time_start&&te<time_final)
  %четвертый вариант
  elseif(te>time_start&&te>time_final)
    %от старта до эфемерид
-   tbef=te:-dt:time_start+1;
+   tbef=te:-dt:time_start;
     XAbef=zeros(length(tbef),1);
     XAbef(1,:)=xa;
     YAbef=zeros(length(tbef),1);
@@ -137,11 +134,11 @@ elseif(te>time_start&&te<time_final)
     VYAbef(1,:)=vya;
     VZAbef=zeros(length(tbef),1);
     VZAbef(1,:)=vza;
-    result_bef=RungKUTT( tbef,-dt,XAbef,YAbef,ZAbef,VXAbef,VYAbef,VZAbef, dt );
+    result_bef=RungKUTT( tbef,dt,XAbef,YAbef,ZAbef,VXAbef,VYAbef,VZAbef, dt );
     tbef=rot90(tbef,2);
     result_before=rot90(result_bef,2);
      %от эфемерид до полуночи
-    t_24=te:dt:24*60*60-1;
+    t_24=te:dt:24*60*60;
     
     XA_24=zeros(length(t_24),1);
     XA_24(1,:)=xa;
@@ -182,18 +179,18 @@ end
 tau=ti-te;
 tau=rot90(tau);
 tpz=rot90(ti);
-tpz=rot90(tpz,2);
 NEB_TEL=sun_moon(T, xa,ya,za,vxa,vya,vza);
 
-dx=Jsm_x*0.5*tau.^2; %(NEB_TEL(1)+(4))
-dy=Jsm_y*0.5*tau.^2;
-dz=Jsm_z*0.5*tau.^2;
+dx=(NEB_TEL(1)+(4))*0.5*tau.^2;
+dy=(NEB_TEL(2)+(5))*0.5*tau.^2;
+dz=(NEB_TEL(3)+(6))*0.5*tau.^2;
 
-dvx=Jsm_x*tau;
-dvy=Jsm_y*tau;
-dvz=Jsm_z*tau;
+dvx=(NEB_TEL(1)+(4))*tau;
+dvy=(NEB_TEL(2)+(5))*tau;
+dvz=(NEB_TEL(3)+(6))*tau;
 
-result(:,1)=result(:,1)+dx;
+Jsm_x,Jsm_y,Jsm_z,
+result(:,1)=result(:,1)+Jsm_x;%dx;
 result(:,2)=result(:,2)+dy;
 result(:,3)=result(:,3)+dz;
 

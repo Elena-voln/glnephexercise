@@ -4,9 +4,9 @@ we=0.7292115*10^-4; %earth's rotation rate
 te=(hour+3)*60*60+min*60+sec;
 time_start=(h_st+3)*60*60; %(+3 UTC)
 time_final=(h_fin+3)*60*60;
-if (time_final>24*60*60)
-    time_final=time_final-24*60*60;
-end
+% if (time_final>24*60*60)
+%     time_final=time_final-24*60*60;
+% end
 C1=0;%use after 2119 year
 C2=0;%use after 2239 year
 JD0=1461*(N4-1)+Nt+2450082.5-(Nt-3)/25+C1+C2; %текущая юлианская дата на 0 часов шкалы МДВ
