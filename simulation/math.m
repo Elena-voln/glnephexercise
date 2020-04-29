@@ -55,7 +55,7 @@ elseif(te>time_start&&te<time_final)
     VYAbef(1,:)=vya;
     VZAbef=zeros(length(tbef),1);
     VZAbef(1,:)=vza;
-    result_bef=RungKUTT( tbef,-dt,XAbef,YAbef,ZAbef,VXAbef,VYAbef,VZAbef, dt );
+    result_bef=RungKUTT( tbef,-dt,XAbef,YAbef,ZAbef,VXAbef,VYAbef,VZAbef, T );
     
     %after
     taft=te+1:dt:time_final-dt;
@@ -193,13 +193,13 @@ dvx=Jsm_x*tau;
 dvy=Jsm_y*tau;
 dvz=Jsm_z*tau;
 
-result(:,1)=result(:,1)+dx;
-result(:,2)=result(:,2)+dy;
-result(:,3)=result(:,3)+dz;
+result(:,1)=result(:,1);%+dx;
+result(:,2)=result(:,2);%+dy;
+result(:,3)=result(:,3);%+dz;
 
-result(:,4)=result(:,4)+dvx;
-result(:,5)=result(:,5)+dvy;
-result(:,6)=result(:,6)+dvz;
+result(:,4)=result(:,4);%+dvx;
+result(:,5)=result(:,5);%+dvy;
+result(:,6)=result(:,6);%+dvz;
 
 [math]=[result tpz];
 end

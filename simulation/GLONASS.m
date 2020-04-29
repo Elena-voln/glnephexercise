@@ -25,7 +25,7 @@ Gamma=0.0018; %ns
  Nt=41;
  hour=13;
  min=45;
- sec=18;
+ sec=0;
  h_st=12;   %начало наблюдения, часов
  h_fin=24;  %конец наблюдения, часов
  
@@ -36,7 +36,7 @@ S=TIME(1);
 T=TIME(4);
 te=TIME(5);
 GMST=TIME(6);
-time_final- time_start
+
 
 %%
 %Coordinates transformation to an inertial reference frame:
@@ -53,6 +53,7 @@ vza=vz;
 Jsm_x=ax*cos(S)-ay*sin(S);
 Jsm_y=ax*sin(S)+ay*cos(S);
 Jsm_z=az;
+
 
 %%
 %веселуха
@@ -72,14 +73,14 @@ hold on
 grid on
 plot3(coordinat(:,1),coordinat(:,2),coordinat(:,3))
 title('Траектория КА в инерциальной СК')
-xlabel('x,km')
-ylabel('y,km')
-zlabel('z,km')
+xlabel('x,m')
+ylabel('y,m')
+zlabel('z,m')
 
 % Для перевода в ПЗ 90.11
 ti=coordinat(:,7);
 
-S_pz=GMST+we*(ti-10800);
+S_pz=GMST+we.*(ti-10800);
 
 x_pz=coordinat(:,1).*cos(S_pz)+coordinat(:,2).*sin(S_pz);
 y_pz=-coordinat(:,1).*sin(S_pz)+coordinat(:,2).*cos(S_pz);
@@ -94,24 +95,25 @@ hold on
 grid on
 plot3(x_pz,y_pz,z_pz)
 title('Траектория КА в СК ПЗ-90')
-xlabel('x,km')
-ylabel('y,km')
-zlabel('z,km')
-
-%% Географические координаты корпуса Е и их перевод в систему WGS-84
+xlabel('x,m')
+ylabel('y,m')
+zlabel('z,m')
+%%
+%Любимый МЭИ в координатах
+%55°45'23.8"N 37°42'12.2"E
 N_gr = 55;
 N_min = 45;
-N_sec = 23.5859;
+N_sec = 23.8;
 E_gr = 37;
 E_min = 42;
-E_sec = 11.5030;
-H = 150;% высота в метрах
+E_sec = 12.2;
+H = 500;% высота в метрах
 N = N_gr*pi/180 + N_min/3437.747 + N_sec/206264.8; % широта в радионах
 E = E_gr*pi/180 + E_min/3437.747 + E_sec/206264.8; % долгота в радионах
 llh = [N E H];
 %PRM_coor = llh2xyz(llh)';
 
-coordinat = coordinat(:,1:3).*1e3; % переход к метрам
+coordinat = coordinat(:,1:3);%.*1e3; % переход к метрам
  
  %% Постороение SkyPlot
 for i=1:length(coordinat(:,1))
@@ -131,11 +133,8 @@ end
 
 figure(4);
 polar(phi,(teta*180-pi)/pi,'r')
-title('Sky PLot КА 13 ГЛОНАСС')
+title('Sky PLot')
 
-ti=rot90(ti,1);
 
-xti=[ti; x];
-xti(:,1:200);
 
-xti(: ,6318-15: 6318+15)
+
