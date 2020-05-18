@@ -1,18 +1,23 @@
-function [RungKUTT ] = RungKUTT( t,dt,xa,ya,za,vxa,vya,vza, T )
- inp=[ xa,ya,za,vxa,vya,vza];
+function [RungKUTT ] = RungKUTT( t, result, T )
+
+dt=1;
 for i=1:length(t)-1
     
-    K0=F(inp(i,:),T);
+  %  inp=[ xa,ya,za,vxa,vya,vza];
     
-    K1=F((inp(i,:)+0.5*dt.*K0), T);
+ 
+    K0=F(result(i,:),T);
+  
     
-    K2=F(inp(i,:)+0.5*dt.*K1, T);
+    K1=F((result(i,:)+0.5*dt.*K0), T);
     
-    K3=F(inp(i,:)+dt.*K2, T);
+    K2=F(result(i,:)+0.5*dt.*K1, T);
     
-    inp(i+1,:)=inp(i,:)+(dt/6)*(K0+2*K1+2*K2+K3);
-     clear  K1 K2 K3 K0
+    K3=F(result(i,:)+dt.*K2, T);
+    
+    result(i+1,:)=result(i,:)+(dt/6)*(K0+2*K1+2*K2+K3);
+    
 end
-[RungKUTT]=inp;
+[RungKUTT]=result;
 end
 
