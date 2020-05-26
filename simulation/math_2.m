@@ -14,7 +14,7 @@ elseif(te>time_start&&te<time_final)
     t_bef=te:-dt:time_start; %из-за того что в этом времени матрица записывается как бы наоборот, вращаем столбцы!!!!
     t_after=te:dt:(time_final-1);
     %before
-        
+      
         result_before=nan(length(t_bef),6);
         result_bef(1,:)=[xa,ya,za,vxa,vya,vza]; 
         result_bef=RungKUTT( t_bef, result_before, T ); 
@@ -26,6 +26,8 @@ elseif(te>time_start&&te<time_final)
         %градусов!
         result_before=rot90(result_bef,2);
         t_before=rot90(t_bef,2);
+       % result_before=result_bef;
+        %t_before=t_bef;
     %after
         
         result_after=nan(length(t_after),6);
@@ -39,9 +41,8 @@ elseif(te>time_start&&te<time_final)
         t=[t_before t_after];
 
 
-
 end
 
-res = [result rot90(t)];
+res = [result rot90(t,3)];
 end
 

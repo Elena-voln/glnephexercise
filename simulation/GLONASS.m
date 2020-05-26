@@ -49,7 +49,6 @@ GMST=TIME(6);
 
 
 %%
-%Coordinates transformation to an inertial reference frame:
 
 %Position
 xa=x0*cos(S)-y0*sin(S);
@@ -86,8 +85,10 @@ xlabel('x,km')
 ylabel('y,km')
 zlabel('z,km')
 
+coordinat(end,7)
 % Äכÿ ןונוגמהא ג ÏÇ 90.11
 ti=coordinat(:,7);
+
 S_pz=GMST+we*(ti-10800);
 x_pz=coordinat(:,1).*cos(S_pz)+coordinat(:,2).*sin(S_pz);
 y_pz=-coordinat(:,1).*sin(S_pz)+coordinat(:,2).*cos(S_pz);
