@@ -1,6 +1,6 @@
-function [RungKUTT ] = RungKUTT( t, result, T )
+function [RungKUTT ] = RungKUTT( t, result, dt)
 
-dt=1;
+T=1;
 for i=1:length(t)-1
     
   %  inp=[ xa,ya,za,vxa,vya,vza];

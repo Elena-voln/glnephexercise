@@ -19,18 +19,9 @@ ay=0.000009;
 az=-0.0000028;
 Tau=-38310; %ns
 Gamma=0.0018; %ns
-% x0 = 10584969.2383; % координата Х в системе ПЗ_90 [m]
-% y0 = 2721713.86719; % координата Y в системе ПЗ_90 [m]
-% z0 = 23027096.6797; % координата Z в системе ПЗ_90 [m]
-% vx = -788.876533508; % скорость по Х в системе ПЗ_90 [m/s]
-% vy = 3058.68911743; % скорость по Y в системе ПЗ_90 [m/s]
-% vz = 1.50871276855; % скорость по Z в системе ПЗ_90 [m/s]
-% ax = 0; % ускорение по Х в системе ПЗ_90 [m/s^2]
-% ay = 0; % ускорение по Y в системе ПЗ_90 [m/s^2]
-% az = -372.529029846e-9; % ускорение по Z в системе ПЗ_90 [m/s^2]
 %%
 %time format
- %2020.02.10 13.45.18           !!!!Проверить!!!!!
+ %2020.02.10 13.45.18           
  N4=7;
  Nt=41;
  hour=13;
@@ -69,7 +60,6 @@ Jsm_z=az;
 coordinat=math_2(xa,ya,za,vxa,vya,vza,Jsm_x,Jsm_y,Jsm_z,time_start,time_final, te,T);
 
 %Строим Землю
-
 [EAR_x,EAR_y,EAR_z] = sphere(20);
 EAR_x=ae.*EAR_x;
 EAR_y=ae.*EAR_y;
@@ -81,9 +71,9 @@ hold on
 grid on
 plot3(coordinat(:,1),coordinat(:,2),coordinat(:,3))
 title('Траектория КА в инерциальной СК')
-xlabel('x,km')
-ylabel('y,km')
-zlabel('z,km')
+xlabel('x,m')
+ylabel('y,m')
+zlabel('z,m')
 
 coordinat(end,7)
 % Для перевода в ПЗ 90.11
@@ -103,9 +93,9 @@ hold on
 grid on
 plot3(x_pz,y_pz,z_pz)
 title('Траектория КА в СК ПЗ-90')
-xlabel('x,km')
-ylabel('y,km')
-zlabel('z,km')
+xlabel('x,m')
+ylabel('y,m')
+zlabel('z,m')
 
 
 %%
@@ -131,26 +121,6 @@ xlabel('x,km')
 ylabel('y,km')
 zlabel('z,km')
 
-% %Координаты любимого МЭИ
-% %55.756610, 37.703544
-% Lat_MPEI=55.756610;
-% Long_MPEI=37.703544;
-% H_MPEI=150;
-% for i=length(coordinat(:,1))
-%     %перевели в СК связанную с МЭИ
-%      [x(i) y(i) z(i)] = ecef2enu(WGS84_x(i),WGS84_y(i),WGS84_z(i),Lat_MPEI,Long_MPEI,H_MPEI,wgs84Ellipsoid,'radians');
-%      %перевод в сферическую  СК
-%      [TET(i),phi(i),r(i)]=cart2sph(x(i),y(i),z(i));
-% %      r(i)=sqrt(x(i)^2+y(i)^2+z(i)^2);
-% %      TET(i)=acos(z(i)/r(i));
-% %      phi(i)=atan2(y(i),z(i));
-%      
-% end
-% 
-% figure(4);
-% polar(phi,(TET*180-pi)/pi,'r')
-% title('SkyVeiw ')
-% 
 N_gr = 55;
 N_min = 45;
 N_sec = 23.6675;
