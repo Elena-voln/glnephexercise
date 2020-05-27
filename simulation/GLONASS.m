@@ -117,9 +117,9 @@ hold on
 grid on
 plot3(WGS84_x,WGS84_y,WGS84_z)
 title('Траектория КА в СК WGS84')
-xlabel('x,km')
-ylabel('y,km')
-zlabel('z,km')
+xlabel('x,m')
+ylabel('y,m')
+zlabel('z,m')
 
 N_gr = 55;
 N_min = 45;
