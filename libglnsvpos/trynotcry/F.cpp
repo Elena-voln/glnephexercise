@@ -14,8 +14,9 @@ struct coord
     double xa, ya, za,vxa,vya,vza;
 };
 
-coord  F(struct coord cor)
+coord  F(struct coord cor, double xa ,double ya,double za,double vxa,double vya,double vza)
 {
+    /*
 double xa=cor.xa;
 double ya=cor.ya;
 double za=cor.za;
@@ -23,7 +24,7 @@ double vxa=cor.vxa;
 double vya=cor.vya;
 double vza=cor.vza;
 
-
+*/
 
 double r, GMrat, xarat, yarat, zarat, ro, Vxa, Vya, Vza ;
 r=sqrt(pow(xa,2)+pow(ya,2)+pow(za,2));

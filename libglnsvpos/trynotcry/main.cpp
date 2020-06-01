@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include <math.h>
+#include <fstream>
 //#include <golova.h>
 const double pi=3.14159265359;
 const double we=7.2921151467e-5; //earth's rotation rate
@@ -15,16 +16,22 @@ struct coord
 
 
 
-coord  F(struct coord cor);
-void RungKUTT(coord res[], int t, int dt);
+
+void RungKUTT(coord res[], double t, double dt);
+
+
+void math_2(coord result[], int time_start,int time_final,int te,
+            double xa, double ya,double za,double vxa, double vya, double vza, double Jsm_x, double Jsm_y,double Jsm_z);
 
 
 int main()
 {
-double S,time_start,time_final,T,te,GMST,ERA,JD0, Tdel;
-int N4,Nt,hour,minut,sec, h_st,h_fin ;
+double S,T,GMST,ERA,JD0, Tdel;
+double N4,Nt,hour,minut,sec, h_st,h_fin ;
+int time_start,time_final, te;
 //Тут про время
-{
+coord *result;
+
 N4=7;
  Nt=41;
  hour=13;
@@ -40,15 +47,15 @@ time_final=(h_fin+3)*60*60;
 JD0=1461*(N4-1)+Nt+2450082.5;//текущая юлианская дата на 0 часов шкалы МДВ
 T=(JD0+(te -10800)/86400-2451545.0)/36525;
 //расчеты времени всякие GMST и прочее (Приложение Л ИКД)
-
+double TE=te;
 Tdel=(JD0-2451545.0)/36525;
 ERA=2*pi*(0.7790572732640 + 1.00273781191135448*(JD0 - 2451545.0));//%угол поворота Земли, рад
 GMST=ERA+0.0000000703270726+0.0223603658710194*Tdel+0.0000067465784654*Tdel*Tdel-0.0000000000021332*Tdel*Tdel*Tdel-0.0000000001452308*Tdel*Tdel*Tdel*Tdel-0.0000000000001784*Tdel*Tdel*Tdel*Tdel*Tdel;  // %истинное звездное время по Гринвичу (рад) (GST ИКД)
-S=GMST+we*(te-10800);  //%10800 из ИКД
-}
+S=GMST+we*(TE-10800);  //%10800 из ИКД
+
 
 // Тут вводим данные эфемерид, пересчитываем все
-{
+
  double x0, y0,z0,vx,vy,vz,ax,ay,az,Tau,Gamma;
 x0=10192674.32;
 y0=-12367565.43;
@@ -77,18 +84,28 @@ Jsm_x=ax*cos(S)-ay*sin(S);
 Jsm_y=ax*sin(S)+ay*cos(S);
 Jsm_z=az;
 
+int delt=6300;
+//coord result[delt];
+result = new coord [delt];
+
+math_2(result,  time_start, time_final, te,
+             xa,  ya, za, vxa, vya,  vza, Jsm_x, Jsm_y, Jsm_z);
+
+ofstream output("result.txt");
+for (int i = 0; i < delt; ++i)
+
+{
+output << result[i].xa <<'\n';
 }
 
-    coord after[5];
-    int leng_after=5;
-    after[0]={6989278.06078926,-13666813.0335678, 19866879.39,3336.90254713637,-870.71023955184,-1827.75784};
-    int dt=-1;
-    RungKUTT(after, leng_after, dt);
+
+output.close();
 
 
+    std::cout <<"result[0].vxa   "  << result[0].vxa <<"\n";
+    std::cout <<"result[1].vxa   "  << result[1].vxa <<"\n";
+    std::cout <<"result[2].vxa   "  << result[2].vxa <<"\n";
+    std::cout <<"result[3].vxa   "  << result[3].vxa <<"\n";
 
-    std::cout <<"after[0].vxa   "  << after[0].vxa <<"\n";
-    std::cout <<"after[1].vxa   "  << after[1].vxa <<"\n";
-    std::cout <<"after[2].vxa   "  << after[2].vxa <<"\n";
-    std::cout <<"after[3].vxa   "  << after[3].vxa <<"\n";
+    delete []result;
 }

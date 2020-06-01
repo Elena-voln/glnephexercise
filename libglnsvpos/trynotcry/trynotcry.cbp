@@ -32,7 +32,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="F.cpp" />
+		<Unit filename="RungeKUTT.cpp" />
+		<Unit filename="golova.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="math_2.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
