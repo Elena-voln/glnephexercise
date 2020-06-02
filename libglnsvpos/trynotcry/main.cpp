@@ -3,7 +3,7 @@
 #include <array>
 #include <math.h>
 #include <fstream>
-//#include <golova.h>
+
 const double pi=3.14159265359;
 const double we=7.2921151467e-5; //earth's rotation rate
 
