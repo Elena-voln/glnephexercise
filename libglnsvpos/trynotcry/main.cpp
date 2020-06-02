@@ -20,7 +20,7 @@ struct coord
 void RungKUTT(coord res[], double t, double dt);
 
 
-void math_2(coord result[], int time_start,int time_final,int te,
+void math_2(coord result[],int delt, int time_start,int time_final,int te,
             double xa, double ya,double za,double vxa, double vya, double vza, double Jsm_x, double Jsm_y,double Jsm_z);
 
 
@@ -84,22 +84,41 @@ Jsm_x=ax*cos(S)-ay*sin(S);
 Jsm_y=ax*sin(S)+ay*cos(S);
 Jsm_z=az;
 
-int delt=6300;
-//coord result[delt];
+int delt=43200;
+
 result = new coord [delt];
 
-math_2(result,  time_start, time_final, te,
+math_2(result,delt,  time_start, time_final, te,
              xa,  ya, za, vxa, vya,  vza, Jsm_x, Jsm_y, Jsm_z);
 
-ofstream output("result.txt");
+ofstream output_x("res_x.txt");
 for (int i = 0; i < delt; ++i)
 
 {
-output << result[i].xa <<'\n';
+output_x << result[i].xa <<'\n';
 }
 
 
-output.close();
+output_x.close();
+
+ofstream output_y("res_y.txt");
+for (int i = 0; i < delt; ++i)
+
+{
+output_y << result[i].ya <<'\n';
+}
+
+
+output_y.close();
+ofstream output_z("res_z.txt");
+for (int i = 0; i < delt; ++i)
+
+{
+output_z << result[i].za <<'\n';
+}
+
+
+output_z.close();
 
 
     std::cout <<"result[0].vxa   "  << result[0].vxa <<"\n";

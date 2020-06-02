@@ -54,6 +54,10 @@ Jsm_x=ax*cos(S)-ay*sin(S);
 Jsm_y=ax*sin(S)+ay*cos(S);
 Jsm_z=az;
 
+%% загрузка данных Этап 3
+X_trynotcry = load('res_x.txt');
+Y_trynotcry = load('res_y.txt');
+Z_trynotcry = load('res_z.txt');
 %%
 %веселуха
 
@@ -69,6 +73,7 @@ figure (1)
 surf(EAR_x,EAR_y,EAR_z)
 hold on
 grid on
+plot3(X_trynotcry,Y_trynotcry,-Z_trynotcry)
 plot3(coordinat(:,1),coordinat(:,2),coordinat(:,3))
 title('Траектория КА в инерциальной СК')
 xlabel('x,m')
