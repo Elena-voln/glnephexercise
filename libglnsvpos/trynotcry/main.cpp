@@ -91,40 +91,77 @@ result = new coord [delt];
 math_2(result,delt,  time_start, time_final, te,
              xa,  ya, za, vxa, vya,  vza, Jsm_x, Jsm_y, Jsm_z);
 
-ofstream output_x("res_x.txt");
+ofstream INERT_x("INERT_x.txt");
 for (int i = 0; i < delt; ++i)
 
 {
-output_x << result[i].xa <<'\n';
+INERT_x << result[i].xa <<'\n';
 }
 
 
-output_x.close();
+INERT_x.close();
 
-ofstream output_y("res_y.txt");
+ofstream INERT_y("INERT_y.txt");
 for (int i = 0; i < delt; ++i)
 
 {
-output_y << result[i].ya <<'\n';
+INERT_y << result[i].ya <<'\n';
 }
 
 
-output_y.close();
-ofstream output_z("res_z.txt");
+INERT_y.close();
+ofstream INERT_z("INERT_z.txt");
+for (int i = 0; i < delt; ++i)
+{
+INERT_z << result[i].za <<'\n';
+}
+INERT_z.close();
+
+//ог90
+coord *result_pz;
+result_pz = new coord [delt];
+double ti=time_start;
+double S_pz;
+for(int i=0; i<delt;i++)
+{
+    S_pz=GMST+we*(ti-10800);
+
+
+     result_pz[i].xa=result[i].xa*cos(S_pz)+result[i].ya*sin(S_pz);
+     result_pz[i].ya=-result[i].xa*sin(S_pz)+result[i].ya*cos(S_pz);
+     result_pz[i].za=-result[i].za;
+     result_pz[i].vxa= result[i].vxa*cos(S_pz)+result[i].vya*sin(S_pz)+we*result[i].ya;
+     result_pz[i].vya= -result[i].vxa*sin(S_pz)+result[i].vya*cos(S_pz)+we*result[i].xa;
+     result_pz[i].vza=-result[i].vza;
+
+    ti=ti+1;
+}
+
+
+ofstream PZ_x("PZ_x.txt");
 for (int i = 0; i < delt; ++i)
 
 {
-output_z << result[i].za <<'\n';
+PZ_x << result_pz[i].xa <<'\n';
 }
 
 
-output_z.close();
+PZ_x.close();
+
+ofstream PZ_y("PZ_y.txt");
+for (int i = 0; i < delt; ++i)
+
+{
+PZ_y << result_pz[i].ya <<'\n';
+}
 
 
-    std::cout <<"result[0].vxa   "  << result[0].vxa <<"\n";
-    std::cout <<"result[1].vxa   "  << result[1].vxa <<"\n";
-    std::cout <<"result[2].vxa   "  << result[2].vxa <<"\n";
-    std::cout <<"result[3].vxa   "  << result[3].vxa <<"\n";
-
+PZ_y.close();
+ofstream PZ_z("PZ_z.txt");
+for (int i = 0; i < delt; ++i)
+{
+PZ_z << result_pz[i].za <<'\n';
+}
+PZ_z.close();
     delete []result;
 }

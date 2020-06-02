@@ -27,25 +27,32 @@ void math_2(coord result[],int delt, int time_start,int time_final,int te,
      dt=-1;
     RungKUTT(bef, long_bef, dt);
 
-/*
-for (int i=0; i<long_bef;i++)
-{
-    result[i]=bef[long_bef-i-1];    //типа инвертируем пакет
-}
-for (int i=0; i<long_aft;i++)
-{
-    result[i+long_bef]=after[i];    //типа инвертируем пакет
-}
-*/
-
 for(int i=0; i<delt;i++)
 {
     if(i<long_bef)
+
     result[i]=bef[long_bef-i-1];
     else
     result[i]=after[i-long_bef];
-
 }
+
+double ti=time_start;
+double dx,dy,dz,dvx,dvy,dvz,tau;
+for(int i=0; i<delt;i++)
+{
+    tau=ti-te;
+    dx=Jsm_x*0.5*tau*tau;
+    dy=Jsm_y*0.5*tau*tau;
+    dz=Jsm_z*0.5*tau*tau;
+
+    dvx=Jsm_x*tau;
+    dvy=Jsm_y*tau;
+    dvz=Jsm_z*tau;
+
+    result[i]={result[i].xa+dx,result[i].ya+dy,-(result[i].za+dz),result[i].vxa+dvx,result[i].vya+dvy,result[i].vza+dvz };
+    ti=ti+1;
+}
+
 
 }
 
