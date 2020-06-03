@@ -1,8 +1,8 @@
 clear; close all; clc;
  format long g
 
-%константы
-ae=6378136;         %большая (экваториальная) полуось общеземного эллипсоида
+%const
+ae=6378136;         %
 we=7.2921151467e-5; %earth's rotation rate
 pi=3.14159265359;
 
@@ -76,7 +76,7 @@ figure (1)
 surf(EAR_x,EAR_y,EAR_z)
 hold on
 grid on
-plot3(X_trynotcry,Y_trynotcry,Z_trynotcry)
+plot3(X_trynotcry,Y_trynotcry,Z_trynotcry) 
 plot3(coordinat(:,1),coordinat(:,2),coordinat(:,3))
 title('Траектория КА в инерциальной СК')
 xlabel('x,m')

@@ -1,12 +1,12 @@
 clear; close all; clc;
  format long g
 
-%константы
-ae=6378136;         %большая (экваториальная) полуось общеземного эллипсоида
+%const
+ae=6378136;         %
 we=7.2921151467e-5; %earth's rotation rate
 pi=3.14159265359;
 
-%данные из RTKNAVI
+%data RTKNAVI
 
 x0=10192674.32;
 y0=-12367565.43;
@@ -27,8 +27,8 @@ Gamma=0.0018; %ns
  hour=13;
  min=45;
  sec=0;
- h_st=12;   %начало наблюдения, часов
- h_fin=24;  %конец наблюдения, часов
+ h_st=12;   %start hour
+ h_fin=24;  %end hour
  
 TIME=time(N4,Nt,hour,min,sec, h_st,h_fin);
 S=TIME(1);
@@ -54,7 +54,7 @@ Jsm_x=ax*cos(S)-ay*sin(S);
 Jsm_y=ax*sin(S)+ay*cos(S);
 Jsm_z=az;
 
-%% загрузка данных Этап 3
+%% load 3 c++
 X_trynotcry = load('INERT_x.txt');
 Y_trynotcry = load('INERT_y.txt');
 Z_trynotcry = load('INERT_z.txt');
@@ -62,29 +62,30 @@ PZ_X_trynotcry = load('PZ_x.txt');
 PZ_Y_trynotcry = load('PZ_y.txt');
 PZ_Z_trynotcry = load('PZ_z.txt');
 %%
-%веселуха
+
 
 coordinat=math_2(xa,ya,za,vxa,vya,vza,Jsm_x,Jsm_y,Jsm_z,time_start,time_final, te,T);
 
-%Строим Землю
+%bilding earth
 [EAR_x,EAR_y,EAR_z] = sphere(20);
 EAR_x=ae.*EAR_x;
 EAR_y=ae.*EAR_y;
 EAR_z=ae.*EAR_z;
-%Графики
+%
 figure (1)
 surf(EAR_x,EAR_y,EAR_z)
 hold on
 grid on
 plot3(X_trynotcry,Y_trynotcry,Z_trynotcry) 
 plot3(coordinat(:,1),coordinat(:,2),coordinat(:,3))
-title('Траектория КА в инерциальной СК')
+title('
+trajectory in an inertial coordinate system')
 xlabel('x,m')
 ylabel('y,m')
 zlabel('z,m')
 
 coordinat(end,7)
-% Для перевода в ПЗ 90.11
+% PZ 90.11
 ti=coordinat(:,7);
 
 S_pz=GMST+we*(ti-10800);
@@ -101,14 +102,15 @@ hold on
 grid on
 plot3(PZ_X_trynotcry,PZ_Y_trynotcry,PZ_Z_trynotcry)
 plot3(x_pz,y_pz,z_pz)
-title('Траектория КА в СК ПЗ-90')
+title('
+trajectory in an PZ90 coordinate system')
 xlabel('x,m')
 ylabel('y,m')
 zlabel('z,m')
 
 
 %%
-%Борьба с SkyView
+% SkyView
 
 PZ90=[x_pz;y_pz;z_pz];
 a=[1 -0.9696*10^-6 0;-0.9696*10^-6 1 0; 0 0 1];
@@ -125,7 +127,8 @@ surf(EAR_x,EAR_y,EAR_z)
 hold on
 grid on
 plot3(WGS84_x,WGS84_y,WGS84_z)
-title('Траектория КА в СК WGS84')
+title('
+trajectory in an WGS84 coordinate system ')
 xlabel('x,m')
 ylabel('y,m')
 zlabel('z,m')
@@ -136,7 +139,7 @@ N_sec = 23.6675;
 E_gr = 37;
 E_min = 42;
 E_sec = 12.3895;
-H = 150;% высота в метрах
+H = 150;% 
 N = N_gr*pi/180 + N_min/3437.747 + N_sec/206264.8; % широта в радионах
 E = E_gr*pi/180 + E_min/3437.747 + E_sec/206264.8; % долгота в радионах
 llh = [N E H];

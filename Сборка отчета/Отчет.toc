@@ -20,4 +20,6 @@
 \contentsline {subsection}{\numberline {4.4}Результат работы}{16}%
 \contentsline {subsection}{\numberline {4.5}Заключение по третьему этапу.}{18}%
 \contentsline {section}{\numberline {5}Общие выводы}{19}%
-\contentsline {section}{{\cyrillictext \CYRL \cyri \cyrt \cyre \cyrr \cyra \cyrt \cyru \cyrr \cyra }}{20}%
+\contentsline {section}{\numberline {6}Приложение А}{19}%
+\contentsline {section}{\numberline {7}Приложение Б}{23}%
+\contentsline {section}{{\cyrillictext \CYRL \cyri \cyrt \cyre \cyrr \cyra \cyrt \cyru \cyrr \cyra }}{24}%
